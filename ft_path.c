@@ -6,14 +6,13 @@
 /*   By: lmagalha <lmagalha@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:28:12 by lmagalha          #+#    #+#             */
-/*   Updated: 2022/08/09 15:49:26 by lmagalha         ###   ########.fr       */
+/*   Updated: 2022/08/21 22:16:43 by lmagalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <stdio.h>
 
-char	*ft_findpath(char *cmd, char **env)
+char	*find_path(char *cmd, const char **envp)
 {
 	int		i;
 	int		j;
@@ -23,29 +22,23 @@ char	*ft_findpath(char *cmd, char **env)
 
 	i = 0;
 	j = 0;
-	while (env[i])
+	while (envp[i])
 	{
-		if (ft_strncmp(env[i],"PATH=", 5) == 0)
+		if (ft_strncmp(envp[i],"PATH=", 5) == 0)
 		{
-			paths = ft_split(env[i] + 5, ":");
-			printf("%s\n", paths);
+				paths = ft_split(envp[i] + 5, ':');
 			while (paths[j])
 			{
-				temp = ft_strjoin(paths[j], '/');
+				temp = ft_strjoin(paths[j], "/");
 				final_path = ft_strjoin(temp, cmd);
-				printf("%s\n", final_path);
-				j++;
+				free(temp);
+				if (access(final_path, F_OK | X_OK) == 0)
+					return (final_path);
+				else
+					j++;
 			}
 		}
 		i++;
 	}
-	return (final_path);
-}
-
-int	main(void)
-{
-	char	*var;
-
-	var = ft_findpath("cat", (char **)envp);
-	return (0);
+	return (final_path);//aqui retorna erro se não achar nada?
 }

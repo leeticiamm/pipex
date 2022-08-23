@@ -6,15 +6,16 @@
 /*   By: lmagalha <lmagalha@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:22:23 by lmagalha          #+#    #+#             */
-/*   Updated: 2022/08/21 22:43:35 by lmagalha         ###   ########.fr       */
+/*   Updated: 2022/08/23 17:10:24 by lmagalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(int argc, char argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
 	int	fd_pipe[2];
+	int	fd[2];
 	int	pid[2];
 
 	if (argc != 5)
@@ -25,9 +26,11 @@ int	main(int argc, char argv[], char *envp[])
 	else
 	{
 		if (pipe(fd_pipe) == -1)
-			//return erro
-		fd_pipe[0] = open(argv[4], O_RDONLY | O_CREAT | O_TRUNC);
-		fd_pipe[1] = open(argv[1], O_WRONLY);
+		{
+			return (0); //retornar algum erro aqui
+		}
+		fd[0] = open(argv[4], O_RDONLY | O_CREAT | O_TRUNC, 0777); //outfile
+		fd[1] = open(argv[1], O_WRONLY); //infile
 		//creating child proccess 1
 		pid[0] = fork();
 		if (pid[0] == -1)
@@ -36,11 +39,10 @@ int	main(int argc, char argv[], char *envp[])
 		}
 		else if (pid[0] == 0)
 		{
-			close(fd_pipe[0]);
-			dup2(fd_pipe[1], STDOUT_FILENO);
-			close(fd_pipe[1]);
-			//achar o caminho
-			//execve cmd1
+			dup2(fd[1], STDIN_FILENO);
+			close(fd[1]);
+			execve(find_path(argv[2], envp), *argv[2], **envp);
+			dup2(STDOUT_FILENO, fd_pipe[1]);
 		}
 		waitpid(pid[0], NULL, 0);// as flags são essas??
 		//creating child proccess 2
@@ -51,10 +53,11 @@ int	main(int argc, char argv[], char *envp[])
 		}
 		else if (pid[1] == 0)
 		{
-			close(fd_pipe[1]);
 			dup2(fd_pipe[0], STDIN_FILENO);
 			close(fd_pipe[0]);
-			//cmd2
+			execve(find_path(argv[3], envp), *argv[3], **envp);
+			dup2(STDOUT_FILENO, fd[0]);
+			dup2(fd[0], 1);
 		}
 	}
 	return (0);

@@ -6,17 +6,20 @@
 /*   By: lmagalha <lmagalha@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:22:23 by lmagalha          #+#    #+#             */
-/*   Updated: 2022/08/23 17:10:24 by lmagalha         ###   ########.fr       */
+/*   Updated: 2022/08/24 16:53:02 by lmagalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <stdio.h>
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	int	fd_pipe[2];
+	int	fd_in;
 	int	fd[2];
-	int	pid[2];
+	int	pid1;
+	int	pid2;
+	int	fd_out;
 
 	if (argc != 5)
 	{
@@ -25,39 +28,49 @@ int	main(int argc, char *argv[], char *envp[])
 	}
 	else
 	{
-		if (pipe(fd_pipe) == -1)
+		if (pipe(fd) == -1)
 		{
 			return (0); //retornar algum erro aqui
 		}
-		fd[0] = open(argv[4], O_RDONLY | O_CREAT | O_TRUNC, 0777); //outfile
-		fd[1] = open(argv[1], O_WRONLY); //infile
+//		fd[0] = open(airgv[4], O_RDONLY | O_CREAT | O_TRUNC, 0777); //outfile
 		//creating child proccess 1
-		pid[0] = fork();
-		if (pid[0] == -1)
-		{
+		pid1 = fork();
+		if (pid1 == -1)
+			return (0);
 			//erro
-		}
-		else if (pid[0] == 0)
+		else if (pid1 == 0)
 		{
-			dup2(fd[1], STDIN_FILENO);
-			close(fd[1]);
-			execve(find_path(argv[2], envp), *argv[2], **envp);
-			dup2(STDOUT_FILENO, fd_pipe[1]);
+			fd_in = open(argv[1], O_RDONLY); //infile
+			dup2(fd_in, STDIN_FILENO);
+			dup2(fd[1], STDOUT_FILENO);
+			//close(fd_in);
+			//close(fd[1]);
+			close(fd[0]);
+			char ** ola;
+			ola = ft_split(argv[2], ' ');
+	//		printf("%s\n", find_path(argv[2], envp));
+			execve(find_path(ola[0], envp), ola, envp);	
 		}
-		waitpid(pid[0], NULL, 0);// as flags são essas??
+		//waitpid(pid1, NULL, 0);// as flags são essas??
 		//creating child proccess 2
-		pid[1] = fork();
-		if (pid[1] == -1)
-		{
+		//pid2 = fork();
+		//if (pid2 == -1)
+		//{
+		//	return (0);
 			//erro
-		}
-		else if (pid[1] == 0)
+		//}
+		//else if (pid2 == 0)
+		else
 		{
-			dup2(fd_pipe[0], STDIN_FILENO);
-			close(fd_pipe[0]);
-			execve(find_path(argv[3], envp), *argv[3], **envp);
-			dup2(STDOUT_FILENO, fd[0]);
-			dup2(fd[0], 1);
+			fd_out = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0664); //outfile
+			dup2(fd[0], STDIN_FILENO);
+			dup2(fd_out, STDOUT_FILENO);
+			//close(fd[0]);
+			close(fd[1]);
+			//close(fd_out);
+			char ** dope;
+			dope = ft_split(argv[3], ' ');
+			execve(find_path(dope[0], envp), dope, envp);
 		}
 	}
 	return (0);

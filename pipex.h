@@ -6,7 +6,7 @@
 /*   By: lmagalha <lmagalha@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:00:01 by lmagalha          #+#    #+#             */
-/*   Updated: 2022/08/23 16:35:24 by lmagalha         ###   ########.fr       */
+/*   Updated: 2022/08/24 16:27:54 by lmagalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <errno.h>
+# include <stdio.h>
 
-char	*find_path(char *cmd, const char **envp);
+char	*find_path(char *cmd, char **envp);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: lmagalha <lmagalha@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:28:12 by lmagalha          #+#    #+#             */
-/*   Updated: 2022/08/21 22:16:43 by lmagalha         ###   ########.fr       */
+/*   Updated: 2022/08/24 17:05:35 by lmagalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*find_path(char *cmd, const char **envp)
+char	*find_path(char *cmd, char **envp)
 {
 	int		i;
 	int		j;
@@ -22,6 +22,8 @@ char	*find_path(char *cmd, const char **envp)
 
 	i = 0;
 	j = 0;
+	if (access(cmd, F_OK | X_OK) == 0)
+		return (cmd);
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i],"PATH=", 5) == 0)
@@ -40,5 +42,19 @@ char	*find_path(char *cmd, const char **envp)
 		}
 		i++;
 	}
-	return (final_path);//aqui retorna erro se não achar nada?
+	if (access(final_path, F_OK | X_OK) == -1)
+	{
+		i = 0;
+		write(2, "zsh: command not found: ", 24);
+		if (!(cmd))
+		{
+			write(2, "\n", 1);
+			exit(127);
+		}
+		while (cmd[i])
+			write(2, &cmd[i++], 1);
+		write(2, "\n", 1);
+		exit(127);
+	}
+	return (final_path);
 }

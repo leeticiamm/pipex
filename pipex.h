@@ -6,7 +6,7 @@
 /*   By: lmagalha <lmagalha@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 16:00:01 by lmagalha          #+#    #+#             */
-/*   Updated: 2022/08/24 16:27:54 by lmagalha         ###   ########.fr       */
+/*   Updated: 2022/09/05 17:06:18 by lmagalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,8 @@
 # include <stdio.h>
 
 char	*find_path(char *cmd, char **envp);
+void	child1(char *argv[], int fd[], char *envp[]);
+void	child2(char *argv[], int fd[], char *envp[]);
+void	write_error(char *cmd);
 
 #endif

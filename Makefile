@@ -1,8 +1,8 @@
 NAME = pipex
 
-SRCS = pipex.c 
+SRCS = pipex.c ft_path.c ft_children.c
 
-CC		= cc
+OBJS = ${SRCS:.c=.o}
 
 RM		= rm -f
 
@@ -10,9 +10,9 @@ CFLAGS = -Wall -Wextra -Werror
 
 PRINTF = ./ft_printf/libftprintf.a
 
-$(NAME):
+$(NAME): ${OBJS}
 		make -C ./ft_printf
-		cc -o pipex $(FlAGS) -c pipex.c $(PRINTF)
+		cc $(CFLAGS) $(OBJS) $(PRINTF) -o $(NAME)
 		
 
 all:	${NAME}

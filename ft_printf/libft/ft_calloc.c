@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmagalha <lmagalha@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/08 16:00:01 by lmagalha          #+#    #+#             */
-/*   Updated: 2022/09/08 13:48:47 by lmagalha         ###   ########.fr       */
+/*   Created: 2022/05/27 14:34:52 by lmagalha          #+#    #+#             */
+/*   Updated: 2022/05/27 15:14:52 by lmagalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "libft.h"
 
-# include "./ft_printf/ft_printf.h"
-# include <unistd.h>
-# include <fcntl.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <errno.h>
-# include <stdio.h>
+void	*ft_calloc(size_t count, size_t size)
+{
+	int	*ptr;
 
-char	*find_path(char *cmd, char **envp);
-void	child1(char *argv[], int fd[], char *envp[]);
-void	child2(char *argv[], int fd[], char *envp[]);
-
-#endif
+	ptr = malloc(count * size);
+	if (ptr == NULL)
+		return (0);
+	ft_bzero(ptr, count * size);
+	return (ptr);
+}

@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmagalha <lmagalha@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/08 16:00:01 by lmagalha          #+#    #+#             */
-/*   Updated: 2022/09/08 13:48:47 by lmagalha         ###   ########.fr       */
+/*   Created: 2022/05/23 14:35:22 by lmagalha          #+#    #+#             */
+/*   Updated: 2022/05/23 15:51:51 by lmagalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "libft.h"
 
-# include "./ft_printf/ft_printf.h"
-# include <unistd.h>
-# include <fcntl.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <errno.h>
-# include <stdio.h>
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+{
+	size_t	i;
+	size_t	j;
 
-char	*find_path(char *cmd, char **envp);
-void	child1(char *argv[], int fd[], char *envp[]);
-void	child2(char *argv[], int fd[], char *envp[]);
-
-#endif
+	i = 0;
+	if (needle[0] == '\0')
+		return ((char *)haystack);
+	while (i < len)
+	{
+		j = 0;
+		while (needle[j] == haystack[i + j] && (i + j) < len)
+		{
+			if (needle[j + 1] == '\0')
+				return ((char *)&haystack[i]);
+			j++;
+		}
+		i++;
+	}
+	return (NULL);
+}

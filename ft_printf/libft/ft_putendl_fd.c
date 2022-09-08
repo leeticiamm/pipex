@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmagalha <lmagalha@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/08 16:00:01 by lmagalha          #+#    #+#             */
-/*   Updated: 2022/09/08 13:48:47 by lmagalha         ###   ########.fr       */
+/*   Created: 2022/06/04 11:45:20 by lmagalha          #+#    #+#             */
+/*   Updated: 2022/06/04 11:47:34 by lmagalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "libft.h"
 
-# include "./ft_printf/ft_printf.h"
-# include <unistd.h>
-# include <fcntl.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <errno.h>
-# include <stdio.h>
-
-char	*find_path(char *cmd, char **envp);
-void	child1(char *argv[], int fd[], char *envp[]);
-void	child2(char *argv[], int fd[], char *envp[]);
-
-#endif
+void	ft_putendl_fd(char *s, int fd)
+{
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
+}

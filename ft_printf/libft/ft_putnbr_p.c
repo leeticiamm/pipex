@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_putnbr_p.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmagalha <lmagalha@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/08 16:00:01 by lmagalha          #+#    #+#             */
-/*   Updated: 2022/09/08 13:48:47 by lmagalha         ###   ########.fr       */
+/*   Created: 2022/06/04 11:48:44 by lmagalha          #+#    #+#             */
+/*   Updated: 2022/07/11 15:37:27 by lmagalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "libft.h"
 
-# include "./ft_printf/ft_printf.h"
-# include <unistd.h>
-# include <fcntl.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <errno.h>
-# include <stdio.h>
+int	ft_putnbr_p(unsigned long n, char *hexa)
+{
+	int				len;
+	char			*str;
+	unsigned long	nb;
 
-char	*find_path(char *cmd, char **envp);
-void	child1(char *argv[], int fd[], char *envp[]);
-void	child2(char *argv[], int fd[], char *envp[]);
-
-#endif
+	nb = (unsigned long) n;
+	write (1, "0x", 2);
+	str = ft_itoa_h(n, hexa);
+	len = ft_putstr_fd(str, 1);
+	free(str);
+	return (len + 2);
+}

@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmagalha <lmagalha@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/08 16:00:01 by lmagalha          #+#    #+#             */
-/*   Updated: 2022/09/08 13:48:47 by lmagalha         ###   ########.fr       */
+/*   Created: 2022/05/17 10:49:00 by lmagalha          #+#    #+#             */
+/*   Updated: 2022/05/23 12:11:56 by lmagalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "libft.h"
 
-# include "./ft_printf/ft_printf.h"
-# include <unistd.h>
-# include <fcntl.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <errno.h>
-# include <stdio.h>
+char	*ft_strchr(const char *s, int c)
+{
+	size_t	i;
+	char	*str;
 
-char	*find_path(char *cmd, char **envp);
-void	child1(char *argv[], int fd[], char *envp[]);
-void	child2(char *argv[], int fd[], char *envp[]);
-
-#endif
+	str = (char *)s;
+	i = 0;
+	while (i <= ft_strlen(str))
+	{
+		if (str[i] == c)
+			return (&str[i]);
+		i++;
+	}
+	return (0);
+}
